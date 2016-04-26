@@ -1,0 +1,21 @@
+{
+	"provisionerId": "aws-provisioner-v1",
+	"workerType": "tutorial",
+	"created": "2016-04-19T18:41:42.113Z",
+	"deadline": "2016-04-19T19:41:42.113Z",
+	"payload": {
+		"image": "ubuntu:13.10",
+		"command": [
+			"/bin/bash",
+			"-c",
+			"echo \"hello World\""
+		],
+		"maxRunTime": 600
+	},
+	"metadata": {
+		"name": "Example Task",
+		"description": "Markdown description of **what** this task does",
+		"owner": "name@example.com",
+		"source": "https://tools.taskcluster.net/task-creator/"
+	}
+}

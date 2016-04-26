@@ -4,5 +4,5 @@ The project will open a web page and ask you to authenticate through TaskCluster
 
 # How to use it
 1. Create a virtualenv and activate it
-2. python setup.py develop
+2. pip install mozci
 3. Decide which script to run; their names make it clear what they do
