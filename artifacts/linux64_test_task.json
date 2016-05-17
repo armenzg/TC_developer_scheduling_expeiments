@@ -1,0 +1,115 @@
+{
+  "provisionerId": "aws-provisioner-v1",
+  "workerType": "desktop-test",
+  "schedulerId": "task-graph-scheduler",
+  "taskGroupId": "ehyywQsERlCSLxBUUfc3yg",
+  "dependencies": [
+    "MLyayljQSBuIGrOEu-t3LQ"
+  ],
+  "requires": "all-completed",
+  "routes": [
+    "tc-treeherder.try.cc896d5d2241a2da1ed42c9bd29013c87ef403c6",
+    "tc-treeherder-stage.try.cc896d5d2241a2da1ed42c9bd29013c87ef403c6"
+  ],
+  "priority": "normal",
+  "retries": 5,
+  "created": "2016-04-20T13:41:55.000Z",
+  "deadline": "2016-04-21T13:41:57.642Z",
+  "expires": "2017-04-21T13:41:57.642Z",
+  "scopes": [
+    "docker-worker:feature:allowPtrace",
+    "docker-worker:cache:level-1-try-test-workspace"
+  ],
+  "payload": {
+    "artifacts": {
+      "public/logs/": {
+        "expires": "2017-04-20T13:41:57.643123Z",
+        "path": "/home/worker/workspace/build/upload/logs/",
+        "type": "directory"
+      },
+      "public/test": {
+        "expires": "2017-04-20T13:41:57.635437Z",
+        "path": "/home/worker/artifacts/",
+        "type": "directory"
+      },
+      "public/test_info/": {
+        "expires": "2017-04-20T13:41:57.643195Z",
+        "path": "/home/worker/workspace/build/blobber_upload_dir/",
+        "type": "directory"
+      }
+    },
+    "cache": {
+      "level-1-try-test-workspace": "/home/worker/workspace"
+    },
+    "command": [
+      "bash",
+      "/home/worker/bin/test.sh",
+      "--no-read-buildbot-config",
+      "--installer-url=https://queue.taskcluster.net/v1/task/D2h7y_RLSHyholbZBrh98A/artifacts/public/build/target.tar.bz2",
+      "--test-packages-url=https://queue.taskcluster.net/v1/task/D2h7y_RLSHyholbZBrh98A/artifacts/public/build/target.test_packages.json",
+      "--download-symbols=true",
+      "--reftest-suite=reftest",
+      "--total-chunk=8",
+      "--this-chunk=1"
+    ],
+    "env": {
+      "GECKO_HEAD_REPOSITORY": "https://hg.mozilla.org/try/",
+      "GECKO_HEAD_REV": "50b7172b65652f6952298d40c550268834e6e24a",
+      "MOZHARNESS_CONFIG": "mozharness/configs/unittests/linux_unittest.py mozharness/configs/remove_executables.py",
+      "MOZHARNESS_SCRIPT": "mozharness/scripts/desktop_unittest.py",
+      "MOZHARNESS_URL": "https://queue.taskcluster.net/v1/task/D2h7y_RLSHyholbZBrh98A/artifacts/public/build/mozharness.zip",
+      "MOZILLA_BUILD_URL": "https://queue.taskcluster.net/v1/task/D2h7y_RLSHyholbZBrh98A/artifacts/public/build/target.tar.bz2",
+      "NEED_PULSEAUDIO": true,
+      "NEED_WINDOW_MANAGER": true
+    },
+    "features": {
+      "allowPtrace": true
+    },
+    "image": {
+      "path": "public/image.tar",
+      "taskId": "YSckbw8PSK6wyTgDv6eeIA",
+      "type": "task-image"
+    },
+    "maxRunTime": 3600
+  },
+  "metadata": {
+    "description": "Reftest run 1",
+    "name": "[TC] Linux64 reftest-1",
+    "owner": "mozilla-taskcluster-maintenance@mozilla.com",
+    "source": "https://hg.mozilla.org/try/file/50b7172b65652f6952298d40c550268834e6e24a/testing/taskcluster/tasks/builds/dbg_linux64.yml"
+  },
+  "tags": {
+    "createdForUser": "armenzg@mozilla.com"
+  },
+  "extra": {
+    "chunks": {
+      "current": 1,
+      "total": 8
+    },
+    "suite": {
+      "flavor": "reftest",
+      "name": "reftest"
+    },
+    "treeherder": {
+      "build": {
+        "platform": "linux64"
+      },
+      "collection": {
+        "debug": true
+      },
+      "groupName": "Desktop reftest",
+      "groupSymbol": "tc-R",
+      "machine": {
+        "platform": "linux64"
+      },
+      "revision": "50b7172b65652f6952298d40c550268834e6e24a",
+      "revision_hash": "cc896d5d2241a2da1ed42c9bd29013c87ef403c6",
+      "symbol": "R1",
+      "tier": 1
+    },
+    "treeherderEnv": [
+      "production",
+      "staging"
+    ]
+  }
+}
