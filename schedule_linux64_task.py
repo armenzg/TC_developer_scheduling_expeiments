@@ -7,7 +7,7 @@ import taskcluster as taskcluster_client
 from mozci import TaskClusterManager
 from mozci.utils.log_util import setup_logging
 
-setup_logging(logging.DEBUG)
+setup_logging(logging.INFO)
 credentials = None
 
 try:
