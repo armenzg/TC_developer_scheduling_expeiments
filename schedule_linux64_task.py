@@ -23,5 +23,5 @@ with open(os.path.join('artifacts', 'linux64_test_task.json')) as file:
 
 # https://groups.google.com/d/msg/mozilla.tools.taskcluster/nkzBlX7BgrU/-IrWXPXCAQAJ
 # This prevents us from scheduling a task which would show up on Treeherder
-task['routes'] = []
+
 tc.schedule_task(task=task)
