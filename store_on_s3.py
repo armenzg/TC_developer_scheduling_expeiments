@@ -36,8 +36,7 @@ def upload_to_s3(credentials, file, bucket, prefix, region):
     """ Uploads file to the AWS S3 bucket and key specified.
     """
     filepath = file.name
-    filename = filepath.split('/')[-1]
-    remote_file_path = os.path.join(prefix, filename)
+    remote_file_path = os.path.join(prefix, filepath.split('/')[-1])
 
     s3_client = boto3.client(
         service_name='s3',
@@ -52,19 +51,14 @@ def upload_to_s3(credentials, file, bucket, prefix, region):
     s3_client.upload_file(
         Filename=filepath,
         Bucket=bucket,
-        Key=remote_file_path)
+        Key=remote_file_path,
+        ExtraArgs={'ContentType': "application/json"}
+    )
 
-    # A signed URL allows anyone to grab the file
-    # http://boto3.readthedocs.io/en/latest/reference/services/s3.html#S3.Client.generate_presigned_url
-    # XXX: It seems that it expires in an hour
-    # ExpiresIn (int) -- The number of seconds the presigned url is valid for. By default it
-    # expires in an hour (3600 seconds)
-    return s3_client.generate_presigned_url(
-        ClientMethod='get_object',
-        Params={
-            'Bucket': bucket,
-            'Key': remote_file_path
-        }
+    return "https://{}.s3-{}.amazonaws.com/{}".format(
+        BUCKET,
+        region,
+        remote_file_path
     )
 
 
