@@ -9,7 +9,8 @@ from thsubmitter import (
 
 # We're going to schedule to a local instance of Treeherder
 th = TreeherderSubmitter(
-    treeherder_url='http://local.treeherder.mozilla.org',
+    host='local.treeherder.mozilla.org',
+    protocol='http',
     treeherder_client_id=os.environ['TREEHERDER_CLIENT_ID'],
     treeherder_secret=os.environ['TREEHERDER_SECRET'],
 )
@@ -24,6 +25,8 @@ job_template = {
     'platform_info': ('linux', 'other', 'x86_64'),
 }
 
+DRY_RUN = False
+
 job_factory = TreeherderJobFactory(submitter=th)
 job = job_factory.create_job(
     repository='try',
@@ -32,17 +35,26 @@ job = job_factory.create_job(
     **job_template
 )
 
-job_factory.submit_running(job)
+job_factory.submit_running(job, dry_run=DRY_RUN)
+
 job_factory.submit_completed(
     job=job,
     result='success', # XXX: This should be a constant
-    job_info=[
+    job_info_details_panel=[
         {
-            "url": "https://www.mozilla.org",
-            "value": "website",
+            "url": "http://people.mozilla.org/~armenzg/permanent/all_builders.txt",
+            "value": "all_builders.txt",
             "content_type": "link",
-            "title": "Mozilla home page"
+            "title": "All Buildbot builders"
+        },
+    ],
+    log_references=[
+        {
+            "url": "http://people.mozilla.org/~armenzg/permanent/all_builders.txt",
+            "name": "unittest",
+            "parse_status": "parsed"
         }
     ],
     artifacts=[],
+    dry_run=DRY_RUN,
 )
