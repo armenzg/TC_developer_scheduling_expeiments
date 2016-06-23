@@ -1,5 +1,6 @@
 ''' This script adds a hello world job to a local Treeherder instance. '''
 import os
+import logging
 
 # Third party modules
 from thsubmitter import (
@@ -7,10 +8,13 @@ from thsubmitter import (
     TreeherderJobFactory
 )
 
+LOG = logging.getLogger()
+logging.basicConfig(level=logging.DEBUG, format='%(message)s')
+
 # We're going to schedule to a local instance of Treeherder
 th = TreeherderSubmitter(
-    host='local.treeherder.mozilla.org',
-    protocol='http',
+    host=os.environ['TREEHERDER_HOST'],
+    protocol='http' if os.environ['TREEHERDER_HOST'].startswith('local') else 'https',
     treeherder_client_id=os.environ['TREEHERDER_CLIENT_ID'],
     treeherder_secret=os.environ['TREEHERDER_SECRET'],
 )
@@ -30,7 +34,7 @@ DRY_RUN = False
 job_factory = TreeherderJobFactory(submitter=th)
 job = job_factory.create_job(
     repository='try',
-    revision='66537e88c60f84f69cd9f8b779c82cd5ddeee8de',
+    revision='303b2c6cbc20d3847b5fdfcffb45351bbe59ed1b',
     add_platform_info=True,
     **job_template
 )
