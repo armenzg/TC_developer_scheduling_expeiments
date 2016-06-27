@@ -1,2 +1,2 @@
 mozci
-boto3
+taskcluster-s3-uploader

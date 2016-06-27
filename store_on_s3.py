@@ -1,66 +1,8 @@
 import os
-import boto3
-
-from taskcluster.sync import Auth
-
-BUCKET = 'tc-gp-public-31d'
-PREFIX = 'ateam/pulse-action-dev/'
-
-
-def main():
-    # This is to make sure that TASKCLUSTER_CLIENT_ID and
-    # TASKCLUSTER_ACCESS_TOKEN are set
-    # The client you're referring to should have this in its scopes:
-    #     auth:aws-s3:read-write:tc-gp-public-31d/ateam/pulse-action-dev/*
-    os.environ['TASKCLUSTER_CLIENT_ID']
-    os.environ['TASKCLUSTER_ACCESS_TOKEN']
-
-    # Obtain temporary S3 credentials via TaskCluster's API
-    # https://docs.taskcluster.net/reference/platform/auth/api-docs#awsS3Credentials
-    credentials = Auth().awsS3Credentials(
-        level='read-write',
-        bucket=BUCKET,
-        prefix=PREFIX,
-    )
-    url = upload_to_s3(
-        credentials=credentials,
-        file=open(os.path.join('artifacts', 'hello_world_task.json'), 'r+'),
-        bucket=BUCKET,
-        prefix=PREFIX + "garbage/",
-        region='us-west-2',
-    )
-    print url
-
-
-def upload_to_s3(credentials, file, bucket, prefix, region):
-    """ Uploads file to the AWS S3 bucket and key specified.
-    """
-    filepath = file.name
-    remote_file_path = os.path.join(prefix, filepath.split('/')[-1])
-
-    s3_client = boto3.client(
-        service_name='s3',
-        region_name=region,
-        aws_access_key_id=credentials['credentials']['accessKeyId'],
-        aws_secret_access_key=credentials['credentials']['secretAccessKey'],
-        aws_session_token=credentials['credentials']['sessionToken'],
-    )
-
-    # Upload the file to S3
-    # http://boto3.readthedocs.io/en/latest/reference/services/s3.html#S3.Client.upload_file
-    s3_client.upload_file(
-        Filename=filepath,
-        Bucket=bucket,
-        Key=remote_file_path,
-        ExtraArgs={'ContentType': "application/json"}
-    )
-
-    return "https://{}.s3-{}.amazonaws.com/{}".format(
-        BUCKET,
-        region,
-        remote_file_path
-    )
-
+from tc_s3_uploader import TC_S3_Uploader
 
 if __name__ == "__main__":
-    main()
+    uploader = TC_S3_Uploader(bucket_prefix='ateam/pulse-action-dev/')
+    file = open(os.path.join('artifacts', 'hello_world_task.json'), 'r+')
+    url = uploader.upload(file)
+    print url
